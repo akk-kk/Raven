@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
-import SiderBar from "../components/SiderBar";
+
 import {Peer} from 'peerjs'
+import React, { useEffect, useState } from 'react'
+import SiderBar from '../components/SiderBar'
+
 const Room = () => {
   const [activeTab, setActiveTab] = useState("Participants");
-
   
-  
-  
-
-
   return (
     <>
       <div className="flex gap-8">

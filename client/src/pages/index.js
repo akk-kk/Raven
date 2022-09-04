@@ -1,62 +1,35 @@
-
-import React, { useContext } from 'react'
-import { useGoogleOneTapLogin } from '@react-oauth/google';
-import jwtDecode from 'jwt-decode'
+import React, { useCallback, useEffect, useContext } from 'react'
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import GLOBAL_CONTEXT from '../_layout';
+
 
 const Landing = () => {
 
-   const {setUser,user}=useContext(GLOBAL_CONTEXT);
-useGoogleOneTapLogin({
-    onSuccess: credentialResponse => {
-        handleGoogleLogin(credentialResponse)
-    },
-    onError: () => {
-        console.log('Login Failed')
-    }
-});
-
-    const handleGoogleLogin = async (response) => {
-        const token = response.credential
-        const decodeToken = jwtDecode(token)
-        console.log(decodeToken)
-        const { name, picture } = decodeToken
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/users/google`, {
+    const navigate = useNavigate()
+    const createMeeting = async () => {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/rooms/create`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            credentials: "include",
-            body: JSON.stringify({
-                username: name,
-                avatar : picture
-            })
-        })
-    }
-
-    const createMeeting = async ()=>{
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/rooms/create`,{
-            method: "POST",
-            headers:{
-                "Content-Type": "application/json"
-            },
             credentials: "include"
         })
-
-        if(res.status === 200){
+        if (res.status === 201) {
             const result = await res.json();
             console.log(result);
         }
     }
+
+    const joinMeeting = async () => {
+        navigate('/join-meet')
+    }
+
+
    
-    
+
     return (
         <>
-        <div className="container">
-
-    
-            <Navbar/>
+            <Navbar />
             <section className='grid place-items-center grid-cols-12 min-h-[800px] gap-8'>
                 <div className="flex flex-col gap-12 col-span-5 ">
                     <div className="text-7xl leading-loose leading-[81px]">
@@ -66,14 +39,14 @@ useGoogleOneTapLogin({
                     <div className="text-4xl text-gray-700">Fast, realiable and secure conferancing with A3. </div>
                     <div className="flex gap-4">
 
-                    <button className='bg-primary rounded h-16 hover:bg-primary-dark w-56 drop-shadow-3xl text-lg flex gap-2 items-center justify-center text-white' onClick={createMeeting}>
-                        <img src='/assets/video.svg' />
-                        Create meeting
-                    </button>
-                    <button className='border-2 border-black  rounded h-16 hover:shadow-xl w-56 drop-shadow-3xl text-lg flex gap-2 items-center justify-center text-black' onClick={createMeeting}>
-                        <img src='/assets/join.svg' />
-                        Join meeting
-                    </button>
+                        <button className='bg-primary rounded h-16 hover:bg-primary-dark w-56 drop-shadow-3xl text-lg flex gap-2 items-center justify-center text-white' onClick={createMeeting}>
+                            <img src='/assets/video.svg' />
+                            Create meeting
+                        </button>
+                        <button className='border-2 border-black  rounded h-16 hover:shadow-xl w-56 drop-shadow-3xl text-lg flex gap-2 items-center justify-center text-black' onClick={joinMeeting}>
+                            <img src='/assets/join.svg' />
+                            Join meeting
+                        </button>
                     </div>
                 </div>
                 <div className="col-span-7">
@@ -86,7 +59,7 @@ useGoogleOneTapLogin({
                 </div>
 
             </section>
-            </div>
+    
         </>
     )
 }
