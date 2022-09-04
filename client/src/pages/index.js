@@ -17,7 +17,8 @@ const Landing = () => {
     const handleGoogleLogin = async (response) => {
         const token = response.credential
         const decodeToken = jwtDecode(token)
-        const { name } = decodeToken
+        console.log(decodeToken)
+        const { name, picture } = decodeToken
         const res = await fetch(`${process.env.REACT_APP_API_URL}/users/google`, {
             method: "POST",
             headers: {
@@ -25,7 +26,8 @@ const Landing = () => {
             },
             credentials: "include",
             body: JSON.stringify({
-                name
+                username: name,
+                avatar : picture
             })
         })
     }
