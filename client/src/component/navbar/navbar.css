@@ -1,0 +1,10 @@
+.navbar{
+    display: flex;
+    padding: 10px 20px;
+    
+    /* box-shadow: ; */
+}
+
+.navbar .items{
+    width: 50%;
+}

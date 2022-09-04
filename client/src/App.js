@@ -1,23 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom'
+import Home from './component/home/Home'
+import Login from './component/login/Login';
+import Navbar from './component/navbar/Navbar';
+import { useEffect } from 'react';
 
 function App() {
+  const [loginState, setLoginState] = useState(false)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (loginState) {
+      navigate('/')
+    } else {
+      navigate('/login')
+    }
+  }, [loginState])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar />
+      <Routes>
+        {
+          loginState ? (
+            <>
+              <Route path='/' element={<Home />} />
+            </>
+          ) : (
+            <Route path='/login' element={<Login />} />
+          )
+        }
+      </Routes>
     </div>
   );
 }
