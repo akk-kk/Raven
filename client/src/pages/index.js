@@ -49,9 +49,13 @@ useGoogleOneTapLogin({
             console.log(result);
         }
     }
-
+   
+    
     return (
         <>
+        <div className="container">
+
+    
             <Navbar/>
             <section className='grid place-items-center grid-cols-12 min-h-[800px] gap-8'>
                 <div className="flex flex-col gap-12 col-span-5 ">
@@ -82,6 +86,7 @@ useGoogleOneTapLogin({
                 </div>
 
             </section>
+            </div>
         </>
     )
 }

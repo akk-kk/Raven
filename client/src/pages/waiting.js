@@ -49,7 +49,7 @@ const WaitingScreen = () => {
             className="w-[600px]  rounded-xl"
             height="00"
             ref={userMediaRef}
-            
+            muted
             />
             <div className="gap-4 flex -mt-10 items-center justify-center">
 
