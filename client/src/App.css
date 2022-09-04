@@ -1,24 +1,16 @@
-*{
-  margin: 0px;
-  padding: 0px;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+.container {
+  max-width: 90vw;
 }
 
-.App{
-  width: 100%;
-  height: calc(100vh - 57px);
-}
 
-.mainCont{
-  height: 100%;
-  position: relative;
-}
+@media screen and (min-width:1500px) {
+  .container {
+    max-width: 95vw;
+    margin: auto;
+  }
 
-.cont{
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);
-  width: 500px;
-  height: 700px;
-  border: 1px solid black;
 }
