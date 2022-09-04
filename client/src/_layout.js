@@ -1,5 +1,4 @@
 import React from 'react'
-import Modal from './components/Modal'
 
 const GLOBAL_CONTEXT = React.createContext();
 
@@ -11,7 +10,6 @@ export const Layout = ({ children }) => {
   return (
     <>
       <GLOBAL_CONTEXT.Provider  value={{show,setShow,content,setContent,setUser,user}}>
-        <Modal content={content} setShow={setShow} show={show}/>
         <div className="container font-poppins p-5">
           {children}
         </div>

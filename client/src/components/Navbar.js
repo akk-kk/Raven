@@ -6,11 +6,30 @@ import { useForm } from '../utils';
 import { useGoogleOneTapLogin } from '@react-oauth/google';
 import { Login, Register } from '../utils/authService'
 import jwtDecode from 'jwt-decode'
+import Modal from "react-modal";
+
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        width: "300px",
+        transform: 'translate(-50%, -50%)',
+        width: "fit-content",
+        height: "fit-content"
+    },
+};
+
 
 const Navbar = () => {
     const username = useForm("");
     const password = useForm("");
-    const { setContent, setShow, user, setUser} = useContext(GLOBAL_CONTEXT)
+    const [namemodal, setNameModal] = useState(false);
+    const [registerModal, setRigsterModal] = useState(false);
+    const { setContent, setShow, user, setUser, show, content } = useContext(GLOBAL_CONTEXT)
 
     const userData = useCallback(async () => {
         try {
@@ -25,7 +44,7 @@ const Navbar = () => {
 
             if (res.status === 200) {
                 const result = await res.json();
-                setUser(result)                
+                setUser(result)
             } else if (res.status === 401) {
                 console.log("test")
             }
@@ -41,7 +60,7 @@ const Navbar = () => {
 
     useGoogleOneTapLogin({
         onSuccess: credentialResponse => {
-            if(!user){
+            if (!user) {
                 handleGoogleLogin(credentialResponse)
             }
         },
@@ -69,72 +88,14 @@ const Navbar = () => {
     }
 
 
-    const test = ()=>{
-        console.log(username)
-    }
+    const openLoginModel = (e) => {
+        setNameModal(true);
+    };
 
 
- 
-
-
-
-    const REGISTER = (<>
-        <div className="flex items-center justify-center gap-4 flex-col">
-            <GoogleLogin
-                onSuccess={credentialResponse => {
-                    console.log(credentialResponse);
-                }}
-                onError={() => {
-                    console.log('Login Failed');
-                }}
-                useOneTap
-                auto_select
-                theme='filled_black'
-                size='large'
-                width="400px"
-                logo_alignment='left'
-                text='continue_with'
-            />
-            <div className="text-lg">OR</div>
-            <div className="flex w-full flex-col gap-2">
-
-                <TextBox placeholder={"username"} action={username.onChange} />
-                <TextBox placeholder={"password"} action={password.onChange} />
-            </div>
-            <button className='text-white rounded bg-black text-lg  w-full h-12' onClick={() => Register(username.value, password.value)}>Sign Up</button>
-            <div className="text-sm"> Already have an account. <span className="cursor-pointer hover:underline" onClick={() => setContent(LOGIN)}>Log in</span>
-            </div>
-        </div>
-    </>)
-    const LOGIN = (<>
-        <div className="flex items-center justify-center gap-4 flex-col">
-            <GoogleLogin
-                onSuccess={credentialResponse => {
-                    console.log(credentialResponse);
-                }}
-                onError={() => {
-                    console.log('Login Failed');
-                }}
-                useOneTap
-                auto_select
-                theme='filled_black'
-                size='large'
-                width="400px"
-                logo_alignment='left'
-            />
-            <div className="text-lg">OR</div>
-            <div className="flex w-full flex-col gap-2">
-
-                <TextBox placeholder={"username"} action={(e) => username.onChange(e)} />
-                <TextBox placeholder={"password"} action={(e) => password.onChange(e)} />
-            </div>
-            <button className='border-2 rounded bg-transparent border-black text-lg hover:bg-black hover:text-white  w-full h-12' onClick={() => test()}>Log In</button>
-            <div className="text-sm">Don't have an account? <span onClick={() => setContent(REGISTER)} className="cursor-pointer hover:underline">
-                Create one
-            </span>
-            </div>
-        </div>
-    </>)
+    const openRegisterModel = (e) => {
+        setRigsterModal(true);
+    };
 
     return (
         <>
@@ -144,13 +105,82 @@ const Navbar = () => {
                     <img src='/assets/logo.png' alt="icon" className='object-contain' />
                 </div>
                 <div className="flex gap-4">
-                    {!user && <> <button onClick={() => { setContent(LOGIN); setShow(true);console.log(user) }} className='border-2 rounded bg-transparent border-black text-lg hover:bg-black hover:text-white  w-32 h-12'>Log In</button>
-                        <button onClick={() => { setContent(REGISTER); setShow(true); }} className='border-2 rounded bg-black text-white border-black text-lg  w-32 h-12'>Sign Up</button></>}
+                    {!user && <> <button onClick={(e) => { openLoginModel(e) }} className='border-2 rounded bg-transparent border-black text-lg hover:bg-black hover:text-white  w-32 h-12'>Log In</button>
+                        <button onClick={(e) => { openRegisterModel(e) }} className='border-2 rounded bg-black text-white border-black text-lg  w-32 h-12'>Sign Up</button></>}
                     {user && <div className="w-12 h-12 rounded-full bg-black"><img src={`${user.avatar}`} className="rounded-full" /></div>}
                 </div>
             </div>
+            <Modal
+                style={{ width: "fit-content", height: "fit-content" }}
+                isOpen={namemodal}
+                onRequestClose={() => setNameModal(false)}
+            >
+                <div className="flex items-center justify-center gap-4 flex-col">
+                    <GoogleLogin
+                        onSuccess={credentialResponse => {
+                            console.log(credentialResponse);
+                        }}
+                        onError={() => {
+                            console.log('Login Failed');
+                        }}
+                        useOneTap
+                        auto_select
+                        theme='filled_black'
+                        size='large'
+                        width="400px"
+                        logo_alignment='left'
+                    />
+                    <div className="text-lg">OR</div>
+                    <div className="flex w-full flex-col gap-2">
+
+                        <TextBox placeholder={"username"} action={(e) => username.onChange(e)} />
+                        <TextBox placeholder={"password"} action={(e) => password.onChange(e)} />
+                    </div>
+                    <button className='border-2 rounded bg-transparent border-black text-lg hover:bg-black hover:text-white  w-full h-12' onClick={() => Login(username.value, password.value)}>Log In</button>
+                    <div className="text-sm">Don't have an account? <span onClick={(e) => { setNameModal(false); openRegisterModel(e); }} className="cursor-pointer hover:underline">
+                        Create one
+                    </span>
+                    </div>
+                </div>
+            </Modal>
+            <Modal
+                style={{ width: "fit-content" }}
+                isOpen={registerModal}
+                onRequestClose={() => setRigsterModal(false)}
+            >
+                <div className="flex items-center justify-center gap-4 flex-col">
+                    <GoogleLogin
+                        onSuccess={credentialResponse => {
+                            console.log(credentialResponse);
+                        }}
+                        onError={() => {
+                            console.log('Login Failed');
+                        }}
+                        useOneTap
+                        auto_select
+                        theme='filled_black'
+                        size='large'
+                        width="400px"
+                        logo_alignment='left'
+                        text='continue_with'
+                    />
+                    <div className="text-lg">OR</div>
+                    <div className="flex w-full flex-col gap-2">
+
+                        <TextBox placeholder={"username"} action={(e) => username.onChange(e)} />
+                        <TextBox placeholder={"password"} action={(e) => password.onChange(e)} />
+                    </div>
+                    <button className='text-white rounded bg-black text-lg  w-full h-12' onClick={() => Register(username.value, password.value)}>Sign Up</button>
+                    <div className="text-sm"> Already have an account. <span className="cursor-pointer hover:underline" onClick={(e) => { openLoginModel(e); setRigsterModal(false) }}>Log in</span>
+                    </div>
+                </div>
+            </Modal>
         </>
     )
 }
+
+
+
+
 
 export default Navbar

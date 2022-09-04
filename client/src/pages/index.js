@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useContext } from 'react'
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 
 const Landing = () => {
 
+    const navigate = useNavigate()
     const createMeeting = async () => {
         const res = await fetch(`${process.env.REACT_APP_API_URL}/rooms/create`, {
             method: "POST",
@@ -19,17 +21,7 @@ const Landing = () => {
     }
 
     const joinMeeting = async () => {
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/rooms/join`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            credentials: "include"
-        })
-        if (res.status === 200) {
-            const result = await res.json();
-            console.log(result);
-        }
+        navigate('/join-meet')
     }
 
     return (
