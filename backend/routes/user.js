@@ -4,6 +4,18 @@ const { authenticate, generateToken, } = require("../middlewares")
 
 const routes = Router()
 
+routes.get("/",authenticate,async (req,res)=>{
+    var user = await User.findById(res.locals.sub)
+    if(!user)
+        return res.status(400).send({
+            "detail":"User Not Found",
+        })
+    return res.status(200).send({
+        "avatar":user.avatar,
+        "username":user.username
+    })
+})
+
 routes.post("/register", async (req, res) => {
     const { username, password } = req.body
     var user = new User({ username, password })
