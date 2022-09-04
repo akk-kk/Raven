@@ -1,6 +1,6 @@
 const { Router } = require("express")
 const { User } = require("../models")
-const {authenticate,generateToken} = require("../middlewares")
+const { authenticate, generateToken, } = require("../middlewares")
 
 const routes = Router()
 
@@ -55,11 +55,48 @@ routes.post("/login", async (req, res) => {
 
 })
 
-routes.post("/logout",authenticate,(req,res)=>{
+routes.post("/google", async (req, res) => {
+    const { avatar, username } = req.body
+    let user = await User.findOne({ username, google: true })
+    if (!user) {
+        user = new User({ avatar, username, google: true })
+        try {
+            user = await user.save()
+        } catch (err) {
+            console.log(err)
+            if (err.code === 11000) {
+                return res.status(409).send({
+                    detail: 'Username already exists',
+                    username: username
+                })
+            }
+            else {
+                return res.status(500).send({
+                    detail: 'Unknown Error Occured'
+                })
+            }
+        }
+    }
+
+    const token = generateToken(user._id, true)
+    res.cookie("access_token", token, {
+        httpOnly: true,
+    })
+    return res.status(200).send({
+        message: "Successful Login",
+        token: token
+    })
+
+
+
+
+})
+
+routes.post("/logout", authenticate, (req, res) => {
     console.log(req.headers)
     res.clearCookie("access_token")
     res.send({
-        "detail":"Logged Out Successfuly"
+        "detail": "Logged Out Successfuly"
     })
 })
 

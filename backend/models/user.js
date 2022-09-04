@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 SALT_WORK_FACTOR = 10;
 
 const UserSchema = new Schema({
+    avatar: {
+        type:String,
+        default:'https://cdn.discordapp.com/attachments/889458608784425011/1015986047701758083/x.jpeg'
+    },
     username: {
         type: String,
         required: [true, '*Username is required'],
@@ -11,8 +15,11 @@ const UserSchema = new Schema({
     },
     password: {
         type: String,
-        required: [true, '*Password is required'],
     },
+    google: {
+        type: Boolean,
+        default: false
+    }
 });
 
 UserSchema.pre('save', function (next) {
