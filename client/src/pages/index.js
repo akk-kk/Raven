@@ -1,8 +1,35 @@
-import React from 'react'
-import { GoogleLogin } from '@react-oauth/google';
+import React, { useEffect } from 'react'
+import { useGoogleOneTapLogin } from '@react-oauth/google';
+import jwtDecode from 'jwt-decode'
 
-// import { LogIn } from '../utils/authService';
+
 const Landing = () => {
+
+    useGoogleOneTapLogin({
+        onSuccess: credentialResponse => {
+            handleGoogleLogin(credentialResponse)
+        },
+        onError: () => {
+            console.log('Login Failed')
+        }
+    });
+
+    const handleGoogleLogin = async (response) => {
+        const token = response.credential
+        const decodeToken = jwtDecode(token)
+        const { name } = decodeToken
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/users/google`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                name
+            })
+        })
+    }
+
     return (
         <>
 
@@ -12,8 +39,8 @@ const Landing = () => {
                     <img src='/assets/logo.png' alt="icon" className='object-contain' />
                 </div>
                 <div className="flex gap-4">
-                   
-                    <button  className='border-2 rounded bg-transparent border-black text-lg hover:bg-black hover:text-white  w-32 h-12'>Log In</button>
+
+                    <button className='border-2 rounded bg-transparent border-black text-lg hover:bg-black hover:text-white  w-32 h-12'>Log In</button>
                     <button className='border-2 rounded bg-black text-white border-black text-lg  w-32 h-12'>Sign Up</button>
                 </div>
             </div>

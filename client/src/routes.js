@@ -6,6 +6,7 @@ import {
     Route,
 } from "react-router-dom";
 import Landing from './pages';
+import Room from './pages/room';
 const ROUTES = () => {
     return (
         <>
@@ -13,6 +14,7 @@ const ROUTES = () => {
                 <Layout>
                     <Routes>
                         <Route path='/' element={<Landing />} />
+                        <Route path='/room' element={<Room />} />
                     </Routes>
                 </Layout>
             </BrowserRouter>
