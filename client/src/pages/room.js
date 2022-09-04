@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react'
 import SiderBar from '../components/SiderBar'
-import {} from 'peerjs'
+
 const Room = () => {
 
-  useEffect(()=>{
-    
-  },[])
 
   
 
@@ -15,6 +12,11 @@ const Room = () => {
     <div className="flex gap-8">
 
     <SiderBar/>
+     <div className="flex">
+      
+      <video width={720} />
+
+     </div>
     
     </div>
     

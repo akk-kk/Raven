@@ -60,10 +60,17 @@ useGoogleOneTapLogin({
                         Connect <span className="text-primary">with</span> anyone, anytime, anywhere
                     </div>
                     <div className="text-4xl text-gray-700">Fast, realiable and secure conferancing with A3. </div>
+                    <div className="flex gap-4">
+
                     <button className='bg-primary rounded h-16 hover:bg-primary-dark w-56 drop-shadow-3xl text-lg flex gap-2 items-center justify-center text-white' onClick={createMeeting}>
                         <img src='/assets/video.svg' />
                         Create meeting
                     </button>
+                    <button className='border-2 border-black  rounded h-16 hover:shadow-xl w-56 drop-shadow-3xl text-lg flex gap-2 items-center justify-center text-black' onClick={createMeeting}>
+                        <img src='/assets/join.svg' />
+                        Join meeting
+                    </button>
+                    </div>
                 </div>
                 <div className="col-span-7">
                     <div className="flex flex-col gap-4">
