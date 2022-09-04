@@ -17,7 +17,9 @@ app.use(cors({
     origin: '*',
     credentials: true,
 }))
+
 app.use('/users', routes.user)
+app.use('/rooms', routes.room)
 
 ;(async () => {
     await mongoose.connect(
