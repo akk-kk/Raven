@@ -29,7 +29,23 @@ const Landing = () => {
                 username: name,
                 avatar : picture
             })
+            
         })
+    }
+
+    const createMeeting = async ()=>{
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/rooms/create`,{
+            method: "POST",
+            headers:{
+                "Content-Type": "application/json"
+            },
+            credentials: "include"
+        })
+
+        if(res.status === 200){
+            const result = await res.json();
+            console.log(result);
+        }
     }
 
     return (
@@ -53,7 +69,7 @@ const Landing = () => {
                         Connect <span className="text-primary">with</span> anyone, anytime, anywhere
                     </div>
                     <div className="text-4xl text-gray-700">Fast, realiable and secure conferancing with A3. </div>
-                    <button className='bg-primary rounded h-16 hover:bg-primary-dark w-56 drop-shadow-3xl text-lg flex gap-2 items-center justify-center text-white'>
+                    <button className='bg-primary rounded h-16 hover:bg-primary-dark w-56 drop-shadow-3xl text-lg flex gap-2 items-center justify-center text-white' onClick={createMeeting}>
                         <img src='/assets/video.svg' />
                         Create meeting</button>
                 </div>

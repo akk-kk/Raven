@@ -30,3 +30,5 @@ routes
             room.users.push({ _id })
         res.status(200).json(room)
     })
+
+module.exports = routes
