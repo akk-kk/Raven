@@ -18,6 +18,7 @@ export const Login = async (username, password) => {
 }
 
 export const Register = async (username, password) => {
+    console.log(username,password)
     const res = await fetch(`${process.env.REACT_APP_API_URL}/users/register`, {
         method: "POST",
         headers: {

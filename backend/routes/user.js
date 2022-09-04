@@ -18,6 +18,9 @@ routes.get("/",authenticate,async (req,res)=>{
 
 routes.post("/register", async (req, res) => {
     const { username, password } = req.body
+    if(!username || !password){
+        return res.status(400).send({message: "fill your data"})
+    }
     var user = new User({ username, password })
     user.save((err) => {
         if (err) {

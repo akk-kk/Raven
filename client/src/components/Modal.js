@@ -9,7 +9,6 @@ const Modal = ({ content, show ,setShow}) => {
 
                 <div className='bg-gray-100 max-w-md p-8 w-full min-h-[200px] rounded-xl shadow-2xl'>
                     {content}
-
                 </div>
             </div>
         </>
