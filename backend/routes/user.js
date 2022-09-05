@@ -11,6 +11,7 @@ routes.get("/",authenticate,async (req,res)=>{
             "detail":"User Not Found",
         })
     return res.status(200).send({
+        "_id":user._id,
         "avatar":user.avatar,
         "username":user.username
     })
