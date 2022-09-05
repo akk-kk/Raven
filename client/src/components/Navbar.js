@@ -106,17 +106,24 @@ const Navbar = () => {
                     <img src='/assets/logo.png' alt="icon" className='object-contain' />
                 </div>
                 <div className="flex gap-4">
-                    {!user && <> <button onClick={(e) => { openLoginModel(e);console.log(e) }} className='border-2 rounded bg-transparent border-black text-lg hover:bg-black hover:text-white  w-32 h-12'>Log In</button>
+                    {!user && <> <button onClick={(e) => { openLoginModel(e) }} className='border-2 rounded bg-transparent border-black text-lg hover:bg-black hover:text-white  w-32 h-12'>Log In</button>
                         <button onClick={(e) => { openRegisterModel(e) }} className='border-2 rounded bg-black text-white border-black text-lg  w-32 h-12'>Sign Up</button></>}
                     {user && <div className="w-12 h-12 rounded-full bg-black"><img src={`${user.avatar}`} className="rounded-full" /></div>}
                 </div>
             </div>
             <Modal
-                style={{ width: "fit-content", height: "fit-content" }}
+                className="max-w-[450px] w-full absolute left-1/3 rounded-lg translate-y-3/4 bg-white p-8 shadow-2xl"
+                ariaHideApp={false}
                 isOpen={namemodal}
                 onRequestClose={() => setNameModal(false)}
             >
                 <div className="flex items-center justify-center gap-4 flex-col">
+                <div className="flex gap-2">
+
+<img src="/assets/logo_icon.png" alt="" className="block w-12 object-contain" />
+<img src="/assets/logo.png" alt="" className="block w-12 object-contain" />
+
+</div>
                     <GoogleLogin
                         onSuccess={credentialResponse => {
                             console.log(credentialResponse);
@@ -145,11 +152,18 @@ const Navbar = () => {
                 </div>
             </Modal>
             <Modal
-                style={{ width: "fit-content" }}
+                className="max-w-[450px] w-full absolute left-1/3 rounded-lg translate-y-3/4 bg-white p-8 shadow-2xl"
                 isOpen={registerModal}
                 onRequestClose={() => setRigsterModal(false)}
+                ariaHideApp={false}
             >
                 <div className="flex items-center justify-center gap-4 flex-col">
+                    <div className="flex gap-2">
+
+                    <img src="/assets/logo_icon.png" alt="" className="block w-12 object-contain" />
+                    <img src="/assets/logo.png" alt="" className="block w-12 object-contain" />
+
+                    </div>
                     <GoogleLogin
                         onSuccess={credentialResponse => {
                             console.log(credentialResponse);
@@ -161,7 +175,7 @@ const Navbar = () => {
                         auto_select
                         theme='filled_black'
                         size='large'
-                        width="400px"
+                        width="300px"
                         logo_alignment='left'
                         text='continue_with'
                     />

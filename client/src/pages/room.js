@@ -5,7 +5,7 @@ import SiderBar from '../components/SiderBar'
 
 const Room = () => {
   const [activeTab, setActiveTab] = useState("Participants");
-  
+  // let peer=new Peer()
   return (
     <>
       <div className="flex gap-8">
