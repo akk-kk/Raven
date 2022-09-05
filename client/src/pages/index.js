@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { useParams } from 'react-router-dom';
 
 
 const Landing = () => {
-
     const navigate = useNavigate()
     const createMeeting = async () => {
         const res = await fetch(`${process.env.REACT_APP_API_URL}/rooms/create`, {
@@ -16,16 +16,15 @@ const Landing = () => {
         })
         if (res.status === 201) {
             const result = await res.json();
-            console.log(result);
+            localStorage.setItem('room',result.room);
+            console.log(result.room);
+            navigate('/meet/'+result.room);
         }
     }
 
     const joinMeeting = async () => {
         navigate('/join-meet')
-    }
-
-
-   
+    }  
 
     return (
         <>

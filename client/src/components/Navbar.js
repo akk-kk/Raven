@@ -41,9 +41,9 @@ const Navbar = () => {
                 credentials: "include"
             })
 
-
             if (res.status === 200) {
                 const result = await res.json();
+                console.log(result)
                 setUser(result)
             } else if (res.status === 401) {
                 console.log("test")
@@ -85,6 +85,10 @@ const Navbar = () => {
                 avatar: picture
             })
         })
+
+        if(res.status === 200){
+            userData()
+        }
     }
 
 
@@ -144,7 +148,7 @@ const Navbar = () => {
                         <TextBox placeholder={"username"} action={(e) => username.onChange(e)} />
                         <TextBox placeholder={"password"} action={(e) => password.onChange(e)} />
                     </div>
-                    <button className='border-2 rounded bg-transparent border-black text-lg hover:bg-black hover:text-white  w-full h-12' onClick={() => Login(username.value, password.value)}>Log In</button>
+                    <button className='border-2 rounded bg-transparent border-black text-lg hover:bg-black hover:text-white  w-full h-12' onClick={() => {Login(username.value, password.value); userData()}}>Log In</button>
                     <div className="text-sm">Don't have an account? <span onClick={(e) => { setNameModal(false); openRegisterModel(e); }} className="cursor-pointer hover:underline">
                         Create one
                     </span>
@@ -185,7 +189,7 @@ const Navbar = () => {
                         <TextBox placeholder={"username"} action={(e) => username.onChange(e)} />
                         <TextBox placeholder={"password"} action={(e) => password.onChange(e)} />
                     </div>
-                    <button className='text-white rounded bg-black text-lg  w-full h-12' onClick={() => Register(username.value, password.value)}>Sign Up</button>
+                    <button className='text-white rounded bg-black text-lg  w-full h-12' onClick={() => {Register(username.value, password.value);userData()}}>Sign Up</button>
                     <div className="text-sm"> Already have an account. <span className="cursor-pointer hover:underline" onClick={(e) => { openLoginModel(e); setRigsterModal(false) }}>Log in</span>
                     </div>
                 </div>

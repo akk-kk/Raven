@@ -6,11 +6,11 @@ const GLOBAL_CONTEXT = React.createContext();
 export const Layout = ({ children }) => {
  
   const [user,setUser]=React.useState();
+  const [roomData,setRoomData] = React.useState();
   return (
     <>
 
-      <GLOBAL_CONTEXT.Provider  value={{setUser,user}}>
-       
+      <GLOBAL_CONTEXT.Provider  value={{setUser,user,roomData,setRoomData}}>
         <div className=" font-poppins p-5">
           {children}
         </div>

@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import TextBox from "../components/TextBox";
 import GLOBAL_CONTEXT from '../_layout';
 
 const WaitingScreen = () => {
-  const { user } = useContext(GLOBAL_CONTEXT)
+  const { user, roomData, setRoomData } = useContext(GLOBAL_CONTEXT)
+  const navigate = useNavigate()
+  const [room, setRoom] = useState();
   const userMediaRef = useRef(null);
   const [showVideo, setShowVideo] = useState(true);
   const [audio, setAudio] = useState(false);
@@ -30,6 +33,27 @@ const WaitingScreen = () => {
   }, []);
 
 
+  const joinMeeting = async () => {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/rooms/join`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        room
+      })
+    })
+    if (res.status === 200) {
+      const result = await res.json();
+      setRoomData(result)
+      localStorage.setItem("Users", JSON.stringify(result))
+      localStorage.setItem("room",result.name)
+      console.log(result);
+      navigate('/meet/' + result.name)
+    }
+  }
+
   const toggleVideo = (value) => {
     streamObj.getVideoTracks()[0].enabled = value
     setShowVideo(value)
@@ -48,11 +72,11 @@ const WaitingScreen = () => {
           <div className="relative">
 
 
-          <video
-            className="w-[600px]  rounded-xl"
-            height="00"
-            ref={userMediaRef}
-            muted
+            <video
+              className="w-[600px]  rounded-xl"
+              height="00"
+              ref={userMediaRef}
+              muted
             />
             <div className="gap-4 flex -mt-10 items-center justify-center">
 
@@ -71,9 +95,11 @@ const WaitingScreen = () => {
             <div className="text-xl">
               Hold on for a second! We are settig up your meeting
             </div>
-            <TextBox placeholder={"Enter code"} />
+            <div className="w-full">
+              <input value={room} type={"text"} className='w-full p-3 bg-gray-200/50 rounded-lg outline-none ' placeholder={"Enter Code"} onChange={(e) => setRoom(e.target.value)} />
+            </div>
             <div className="flex items-center gap-4">
-              <button className="block bg-primary items-center justify-center flex w-48 gap-4 h-12 text-white rounded-full">
+              <button className="block bg-primary items-center justify-center flex w-48 gap-4 h-12 text-white rounded-full" onClick={joinMeeting}>
                 Ask to join
                 <div className="border-2 border-t-white animate-spin border-primary     w-6 h-6 rounded-full"></div>
               </button>

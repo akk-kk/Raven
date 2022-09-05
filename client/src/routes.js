@@ -15,7 +15,7 @@ const ROUTES = () => {
                 <Layout>
                     <Routes>
                         <Route path='/' element={<Landing />} />
-                        <Route path='/meet' element={<Room/>} />
+                        <Route path='/meet/:id' element={<Room/>} />
                         <Route path='/join-meet' element={<WaitingScreen/>} />
                     </Routes>
                 </Layout>
